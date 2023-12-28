@@ -1,0 +1,1 @@
+export 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/controllers/home.controller.binding.dart'; 
