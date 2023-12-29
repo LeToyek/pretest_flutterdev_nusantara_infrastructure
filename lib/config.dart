@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Environments {
   static const String PRODUCTION = 'prod';
   static const String QAS = 'QAS';
@@ -6,7 +8,7 @@ class Environments {
 }
 
 class ConfigEnvironments {
-  static const String _currentEnvironments = Environments.LOCAL;
+  static const String _currentEnvironments = Environments.DEV;
   static final List<Map<String, String>> _availableEnvironments = [
     {
       'env': Environments.LOCAL,
@@ -14,7 +16,7 @@ class ConfigEnvironments {
     },
     {
       'env': Environments.DEV,
-      'url': '',
+      'url': dotenv.env['API_BASE_URL']!,
     },
     {
       'env': Environments.QAS,
