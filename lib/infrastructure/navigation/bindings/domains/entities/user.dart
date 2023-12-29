@@ -1,4 +1,4 @@
-import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user_response.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user/user_response.dart';
 
 class User {
   int? id;

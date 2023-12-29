@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../../config.dart';
@@ -34,6 +35,11 @@ class Nav {
       name: Routes.AUTH,
       page: () => const AuthScreen(),
       binding: AuthControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.BOOK_DETAIL,
+      page: () => const BookDetailScreen(),
+      binding: BookDetailControllerBinding(),
     ),
   ];
 }

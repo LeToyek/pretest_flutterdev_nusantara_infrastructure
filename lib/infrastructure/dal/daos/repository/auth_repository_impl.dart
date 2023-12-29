@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/http_exception.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user_request.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user_response.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user/user_request.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user/user_response.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/services/nusantara_api_client.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/repository/auth_repository.dart';
 
@@ -60,8 +60,11 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    try {
+      await _nusantaraApiClient.delete("/user/logout");
+    } catch (e) {
+      rethrow;
+    }
   }
 }

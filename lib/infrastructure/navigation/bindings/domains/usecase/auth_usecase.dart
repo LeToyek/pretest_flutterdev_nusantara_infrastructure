@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user_request.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user/user_request.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/services/cache_manager.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/entities/user.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/repository/auth_repository.dart';
@@ -10,6 +10,25 @@ class AuthUseCase {
   final store = Get.find<CacheManager>();
 
   AuthUseCase({required this.authRepository});
+
+  bool checkLogin() {
+    try {
+      final token = store.getToken();
+      return token != null || token!.isNotEmpty;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<User?> getUser() async {
+    try {
+      final data = await authRepository.getUser();
+      final userEntity = User.fromData(data);
+      return userEntity;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<User> login(UserCredential params) async {
     try {

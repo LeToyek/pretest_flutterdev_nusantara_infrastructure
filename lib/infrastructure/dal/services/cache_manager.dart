@@ -7,10 +7,10 @@ import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navig
 class CacheManager extends GetxService {
   GetStorage? _storage;
 
-  @override
-  void onInit() {
-    super.onInit();
+  Future<CacheManager> init() async {
+    await GetStorage.init();
     _storage = GetStorage();
+    return this;
   }
 
   Future<void> saveToken(String token) async {

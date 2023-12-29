@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/entities/user.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/usecase/auth_usecase.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/routes.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/basic_loader.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/snackbar/custom_snackbar.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/snackbar/custom_snackbar.dart';
 
 class AuthController extends GetxController {
   final AuthUseCase authUseCase;
 
   AuthController({required this.authUseCase});
 
-  final isLogged = false.obs;
+  static AuthController get to => Get.find();
+
   final isLogin = true.obs;
+
+  final user = Rxn<User>();
 
   final loginKey = GlobalKey<FormState>();
   final registerKey = GlobalKey<FormState>();
@@ -20,6 +24,12 @@ class AuthController extends GetxController {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmationTextController = TextEditingController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    checkLogin();
+  }
 
   @override
   void dispose() {
@@ -44,11 +54,11 @@ class AuthController extends GetxController {
           password: passwordTextController.text,
         );
         final res = await authUseCase.login(userLogin);
-        isLogged.value = true;
         Get.back(closeOverlays: true);
         FocusManager.instance.primaryFocus?.unfocus();
         CustomSnackBar.showSuccess(
             title: "Login Berhasil", message: "Selamat datang ${res.name}");
+        Get.offNamed(Routes.HOME);
       } catch (e) {
         Get.back(closeOverlays: true);
         CustomSnackBar.showError(title: "Error", message: e.toString());
@@ -69,7 +79,6 @@ class AuthController extends GetxController {
           passwordConfirmation: passwordConfirmationTextController.text,
         );
         final res = await authUseCase.register(userRegister);
-        isLogged.value = true;
         Get.back(closeOverlays: true);
 
         CustomSnackBar.showSuccess(
@@ -84,8 +93,25 @@ class AuthController extends GetxController {
   }
 
   void logout() async {
-    isLogged.value = false;
-    await authUseCase.logout();
+    Get.dialog(const BasicLoader());
+    try {
+      await authUseCase.logout();
+      Get.back(closeOverlays: true);
+      CustomSnackBar.showSuccess(title: "Logout Berhasil", message: "");
+      Get.offAllNamed(Routes.AUTH);
+    } catch (e) {
+      Get.back(closeOverlays: true);
+      CustomSnackBar.showError(title: "Error", message: e.toString());
+    }
+  }
+
+  void checkLogin() async {
+    final res = authUseCase.checkLogin();
+    if (res) {
+      final data = await authUseCase.getUser();
+      user.value = data;
+      Get.offNamed(Routes.HOME);
+    }
   }
 
   String? nameValidator(String? value) {
