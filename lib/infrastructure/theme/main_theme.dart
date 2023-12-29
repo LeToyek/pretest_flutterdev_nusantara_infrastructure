@@ -15,7 +15,7 @@ const MaterialColor textSwatch = MaterialColor(_textColor, <int, Color>{
   900: Color(0xFF0F172A),
 });
 
-const Color primaryColor = Color(0xFF1F4269);
+const Color primaryColor = Color(0xFF1F517E);
 const Color errorColor = Color(0xFFDC2626); // red-600
 
 final lightTheme = ThemeData(

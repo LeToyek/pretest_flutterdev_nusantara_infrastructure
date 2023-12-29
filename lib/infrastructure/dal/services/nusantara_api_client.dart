@@ -9,11 +9,14 @@ class NusantaraApiClient with DioMixin implements Dio {
       baseUrl: ConfigEnvironments.getEnvironments()['url']!,
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     );
 
     interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
       final token = _cacheManager.getToken();
+
+      print("Token: $token");
 
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';

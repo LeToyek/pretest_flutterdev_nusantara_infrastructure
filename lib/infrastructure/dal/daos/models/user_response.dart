@@ -1,5 +1,5 @@
 class UserModelDaos {
-  String? id;
+  int? id;
   String? name;
   String? emailVerifiedAt;
   String? createdAt;

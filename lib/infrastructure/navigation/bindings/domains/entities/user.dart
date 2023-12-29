@@ -1,7 +1,7 @@
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/dal/daos/models/user_response.dart';
 
 class User {
-  String? id;
+  int? id;
   String? name;
   String? emailVerifiedAt;
   String? createdAt;

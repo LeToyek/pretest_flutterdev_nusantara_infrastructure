@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/views/login_form_view.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/views/register_form_view.dart';
 
 import 'controllers/auth.controller.dart';
 
@@ -14,29 +16,23 @@ class AuthScreen extends GetView<AuthController> {
             minHeight: constraints.maxHeight, minWidth: constraints.maxWidth),
         child: IntrinsicHeight(
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'AuthScreen is working',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Obx(
-                  () => Text(
-                    "${controller.isLogged}",
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/ni_logo.png",
+                    height: 200,
                   ),
-                ),
-                ElevatedButton(
-                    onPressed: controller.login, child: const Text("Login")),
-                ElevatedButton(
-                    onPressed: () {
-                      controller.logout();
-                    },
-                    child: const Text("Logout")),
-                const SizedBox(
-                  height: 24,
-                ),
-              ],
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Obx(() => controller.isLogin.value
+                      ? const LoginFormView()
+                      : const RegisterFormView()),
+                ],
+              ),
             ),
           ),
         ),
