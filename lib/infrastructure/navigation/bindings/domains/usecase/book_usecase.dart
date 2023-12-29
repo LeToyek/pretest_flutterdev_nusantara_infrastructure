@@ -69,4 +69,12 @@ class BookUseCase {
       rethrow;
     }
   }
+
+  Future<void> deleteBook(int id) async {
+    try {
+      await _bookRepository.deleteBook(id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/custom_app_bar.dart';
 
 import 'controllers/book_detail.controller.dart';
 
@@ -11,8 +10,13 @@ class BookDetailScreen extends GetView<BookDetailController> {
     final textTheme = Theme.of(context).textTheme;
     return Obx(() => Scaffold(
         backgroundColor: Colors.white,
-        appBar:
-            buildCustomAppBar(context, title: controller.book.value!.title!),
+        appBar: AppBar(
+            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: Text(
+              controller.book.value!.title ?? "",
+              style: textTheme.titleLarge!.apply(color: Colors.white),
+            )),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
