@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/entities/user.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/usecase/auth_usecase.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/basic_loader.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/snackbar/custom_snackbar.dart';
 
 class AuthController extends GetxController {
   final AuthUseCase authUseCase;
@@ -45,26 +46,41 @@ class AuthController extends GetxController {
         final res = await authUseCase.login(userLogin);
         isLogged.value = true;
         Get.back(closeOverlays: true);
+        FocusManager.instance.primaryFocus?.unfocus();
+        CustomSnackBar.showSuccess(
+            title: "Login Berhasil", message: "Selamat datang ${res.name}");
       } catch (e) {
         Get.back(closeOverlays: true);
-        Get.snackbar(
-          'Error',
-          e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showError(title: "Error", message: e.toString());
+      } finally {
+        FocusManager.instance.primaryFocus?.unfocus();
       }
     }
   }
 
   void register() async {
-    isLogged.value = true;
-    final userRegister = UserRegisterCredential(
-      name: emailTextController.text,
-      email: emailTextController.text,
-      password: passwordTextController.text,
-      passwordConfirmation: passwordTextController.text,
-    );
-    final res = await authUseCase.register(userRegister);
+    if (registerKey.currentState!.validate()) {
+      Get.dialog(const BasicLoader());
+      try {
+        final userRegister = UserRegisterCredential(
+          name: nameTextController.text,
+          email: emailTextController.text,
+          password: passwordTextController.text,
+          passwordConfirmation: passwordConfirmationTextController.text,
+        );
+        final res = await authUseCase.register(userRegister);
+        isLogged.value = true;
+        Get.back(closeOverlays: true);
+
+        CustomSnackBar.showSuccess(
+            title: "Register Berhasil", message: "Selamat datang ${res.name}");
+      } catch (e) {
+        Get.back(closeOverlays: true);
+        CustomSnackBar.showError(title: "Error", message: e.toString());
+      } finally {
+        FocusManager.instance.primaryFocus?.unfocus();
+      }
+    }
   }
 
   void logout() async {

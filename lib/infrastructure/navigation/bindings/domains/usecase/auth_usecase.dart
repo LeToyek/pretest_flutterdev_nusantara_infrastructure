@@ -37,8 +37,10 @@ class AuthUseCase {
         passwordConfirmation: params.passwordConfirmation,
       );
       await authRepository.signUp(param);
-      final data = await authRepository.getUser();
-      final userEntity = User.fromData(data);
+      final userEntity = await login(UserCredential(
+        email: params.email,
+        password: params.password,
+      ));
       return userEntity;
     } catch (e) {
       rethrow;

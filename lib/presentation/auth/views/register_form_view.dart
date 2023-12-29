@@ -9,7 +9,7 @@ class RegisterFormView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: controller.loginKey,
+        key: controller.registerKey,
         child: Column(
           children: [
             AuthTextField(
@@ -47,7 +47,7 @@ class RegisterFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthButton(onPressed: controller.login, label: "Register"),
+            AuthButton(onPressed: controller.register, label: "Register"),
             const SizedBox(
               height: 16,
             ),
