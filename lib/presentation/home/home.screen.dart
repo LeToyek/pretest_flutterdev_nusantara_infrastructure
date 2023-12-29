@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/custom_app_bar.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/home/views/book_card_view.dart';
 
 import 'controllers/home.controller.dart';
 
@@ -8,55 +10,54 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeScreen'),
-        centerTitle: true,
+      appBar: buildCustomAppBar(context, title: "Book List"),
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // controller.increment();
+        },
+        child: const Icon(Icons.add),
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton(
-                onPressed: controller.authController.logout,
-                child: const Text("Logout")),
-            const Text(
-              'HomeScreen is working',
-              style: TextStyle(fontSize: 20),
-            ),
-            controller.obx(
-              (state) => ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final item = state[index];
-                    return ListTile(
-                      title: Text(item.title ?? "No Title"),
-                    );
-                  },
-                  itemCount: state!.length),
-              onError: (error) => Center(
-                child: Text("Error $error"),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              controller.obx(
+                (state) => ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final item = state[index];
+                      return BookCardView(
+                          onTap: () => controller.goToBookDetail(item.id!),
+                          book: item);
+                    },
+                    itemCount: state!.length),
+                onError: (error) => Center(
+                  child: Text("Error $error"),
+                ),
+                onEmpty: const Center(
+                  child: Text("No Data"),
+                ),
+                onLoading: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
-              onEmpty: const Center(
-                child: Text("No Data"),
+              // Obx(
+              //   () => Text(
+              //     "${controller.count}",
+              //   ),
+              // ),
+              // ElevatedButton(
+              //     onPressed: () {
+              //       controller.increment();
+              //     },
+              //     child: const Text("Push it")),
+              const SizedBox(
+                height: 24,
               ),
-              onLoading: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-            // Obx(
-            //   () => Text(
-            //     "${controller.count}",
-            //   ),
-            // ),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       controller.increment();
-            //     },
-            //     child: const Text("Push it")),
-            const SizedBox(
-              height: 24,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

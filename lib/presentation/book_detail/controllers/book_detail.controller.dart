@@ -1,23 +1,14 @@
 import 'package:get/get.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/entities/book.dart';
 
 class BookDetailController extends GetxController {
-  //TODO: Implement BookDetailController
+  dynamic argumentData = Get.arguments;
 
-  final count = 0.obs;
+  final book = Rxn<Book>();
+
   @override
   void onInit() {
     super.onInit();
+    book.value = argumentData;
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
