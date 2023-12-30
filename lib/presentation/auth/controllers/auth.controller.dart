@@ -39,10 +39,9 @@ class AuthController extends GetxController {
     final res = authUseCase.checkLogin();
     if (res) {
       final data = await authUseCase.getUser();
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        user.value = data;
-        Get.offNamed(Routes.HOME);
-      });
+
+      user.value = data;
+      Get.offNamed(Routes.HOME);
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offNamed(Routes.AUTH);
@@ -63,6 +62,7 @@ class AuthController extends GetxController {
           password: passwordTextController.text,
         );
         final res = await authUseCase.login(userLogin);
+        user.value = res;
         Get.back(closeOverlays: true);
         FocusManager.instance.primaryFocus?.unfocus();
         CustomSnackBar.showSuccess(
@@ -88,10 +88,11 @@ class AuthController extends GetxController {
           passwordConfirmation: passwordConfirmationTextController.text,
         );
         final res = await authUseCase.register(userRegister);
+        user.value = res;
         Get.back(closeOverlays: true);
-
         CustomSnackBar.showSuccess(
             title: "Register Berhasil", message: "Selamat datang ${res.name}");
+        Get.offNamed(Routes.HOME);
       } catch (e) {
         Get.back(closeOverlays: true);
         CustomSnackBar.showError(title: "Error", message: e.toString());
