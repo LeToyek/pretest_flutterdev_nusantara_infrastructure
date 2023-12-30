@@ -20,6 +20,14 @@ class BookDetailScreen extends GetView<BookDetailController> {
             controller.book.value!.title ?? "",
             style: textTheme.titleLarge!.apply(color: Colors.white),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  controller.homeController
+                      .deleteOneBook(controller.book.value!.id!);
+                },
+                icon: const Icon(Icons.delete))
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
             onPressed: controller.goToEditForm,

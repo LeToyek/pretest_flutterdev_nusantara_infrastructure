@@ -37,7 +37,7 @@ class CustomAppBar extends GetView<HomeController>
                 children: [
                   Text(
                     controller.deleteListId.isEmpty
-                        ? "Book List"
+                        ? "${controller.authController.user.value?.name}"
                         : "${controller.deleteListId.length} Book Selected",
                     style: Theme.of(context)
                         .textTheme

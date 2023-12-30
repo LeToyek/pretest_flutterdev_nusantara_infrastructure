@@ -13,10 +13,27 @@ class HomeScreen extends GetView<HomeController> {
     return Scaffold(
       appBar: const CustomAppBar(),
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: controller.goToBookAdd,
-        label: const Text("Tambah Buku"),
-        icon: const Icon(Icons.add),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton.extended(
+              heroTag: "logout",
+              icon: const Icon(Icons.logout),
+              label: const Text("Logout"),
+              onPressed: controller.authController.logout,
+              backgroundColor: Colors.redAccent,
+            ),
+            FloatingActionButton.extended(
+              heroTag: "add",
+              onPressed: controller.goToBookAdd,
+              label: const Text("Tambah Buku"),
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        ),
       ),
       body: controller.obx(
         (state) => _refreshWrapper(
@@ -32,34 +49,37 @@ class HomeScreen extends GetView<HomeController> {
                           "Anda belum memiliki buku, silahkan tambahkan buku anda dengan cara tekan tombol di pojok kanan bawah."),
                     ],
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Berikut adalah daftar buku anda:",
-                        style: textTheme.bodyLarge,
-                      ),
-                      Text(
-                          "Anda dapat menghapus buku anda dengan cara menekan dan menahan kartu buku yang ingin dihapus.",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontSize: 12,
-                          )),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final item = state[index];
-                            return BookCardView(book: item);
-                          },
-                          itemCount: state!.length),
-                      const SizedBox(
-                        height: 64,
-                      )
-                    ],
+                : SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Berikut adalah daftar buku anda:",
+                          style: textTheme.bodyLarge,
+                        ),
+                        Text(
+                            "Anda dapat menghapus buku anda dengan cara menekan dan menahan kartu buku yang ingin dihapus.",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 12,
+                            )),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final item = state[index];
+                              return BookCardView(book: item);
+                            },
+                            itemCount: state!.length),
+                        const SizedBox(
+                          height: 64,
+                        )
+                      ],
+                    ),
                   ),
           ),
         ),

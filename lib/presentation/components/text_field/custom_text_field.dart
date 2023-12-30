@@ -22,7 +22,7 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool obsecureText = false;
+  bool obsecureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       validator: widget.validator,
       controller: widget.controller,
-      obscureText: obsecureText,
+      obscureText: widget.isPassword && obsecureText,
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,

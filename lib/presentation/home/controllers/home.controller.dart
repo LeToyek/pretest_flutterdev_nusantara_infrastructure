@@ -45,6 +45,11 @@ class HomeController extends GetxController with StateMixin<List<Book>> {
     }
   }
 
+  void deleteOneBook(int id) {
+    addItemToDelete(id);
+    deleteSelectedBook();
+  }
+
   bool isSelectedCard(int id) {
     if (deleteListId.contains(id)) {
       return true;
