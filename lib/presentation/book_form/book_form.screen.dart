@@ -12,7 +12,7 @@ class BookFormScreen extends GetView<BookFormController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Tambah Buku'),
+          title: Text(controller.isEdit ? "Edit Buku" : "Tambah Buku"),
           centerTitle: true,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -21,51 +21,100 @@ class BookFormScreen extends GetView<BookFormController> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
+                key: controller.bookFormKey,
                 child: Column(
-              children: [
-                CustomAriseTextField(
-                    controller: controller.titleController,
-                    hint: "Judul Buku",
-                    label: "Judul Buku"),
-                CustomAriseTextField(
-                    controller: controller.subTitleController,
-                    hint: "Sub Judul Buku",
-                    label: "Sub Judul Buku"),
-                CustomAriseTextField(
-                  label: "ISBN",
-                  keyboardType: TextInputType.number,
-                  controller: controller.isbnController,
-                  hint: "ISBN",
-                ),
-                CustomAriseTextField(
-                  label: "Jumlah Halaman",
-                  keyboardType: TextInputType.number,
-                  controller: controller.pagesController,
-                  hint: "Jumlah Halaman",
-                ),
-                CustomAriseTextField(
-                  controller: controller.authorController,
-                  hint: "Penulis Buku",
-                  label: "Penulis Buku",
-                ),
-                CustomAriseTextField(
-                    controller: controller.publisherController,
-                    hint: "Penerbit Buku",
-                    label: "Penerbit Buku"),
-                CustomLargeTextField(
-                    controller: controller.descriptionController,
-                    hint: "Deskripsi Buku",
-                    label: "Deskripsi Buku"),
-                CustomAriseTextField(
-                    keyboardType: TextInputType.url,
-                    controller: controller.websiteController,
-                    hint: "Website Buku",
-                    label: "Website Buku"),
-                const SizedBox(
-                  height: 64,
-                )
-              ],
-            )),
+                  children: [
+                    CustomAriseTextField(
+                        controller: controller.titleController,
+                        hint: "Judul Buku",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Judul Buku tidak boleh kosong";
+                          }
+                          return null;
+                        },
+                        label: "Judul Buku"),
+                    CustomAriseTextField(
+                        controller: controller.subTitleController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Sub Judul Buku tidak boleh kosong";
+                          }
+                          return null;
+                        },
+                        hint: "Sub Judul Buku",
+                        label: "Sub Judul Buku"),
+                    CustomAriseTextField(
+                      label: "ISBN",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "ISBN tidak boleh kosong";
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.number,
+                      controller: controller.isbnController,
+                      hint: "ISBN",
+                    ),
+                    CustomAriseTextField(
+                      label: "Jumlah Halaman",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Jumlah Halaman tidak boleh kosong";
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.number,
+                      controller: controller.pagesController,
+                      hint: "Jumlah Halaman",
+                    ),
+                    CustomAriseTextField(
+                      controller: controller.authorController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Penulis Buku tidak boleh kosong";
+                        }
+                        return null;
+                      },
+                      hint: "Penulis Buku",
+                      label: "Penulis Buku",
+                    ),
+                    CustomAriseTextField(
+                        controller: controller.publisherController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Penerbit Buku tidak boleh kosong";
+                          }
+                          return null;
+                        },
+                        hint: "Penerbit Buku",
+                        label: "Penerbit Buku"),
+                    CustomLargeTextField(
+                        controller: controller.descriptionController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Deskripsi Buku tidak boleh kosong";
+                          }
+                          return null;
+                        },
+                        hint: "Deskripsi Buku",
+                        label: "Deskripsi Buku"),
+                    CustomAriseTextField(
+                        keyboardType: TextInputType.url,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Website Buku tidak boleh kosong";
+                          }
+                          return null;
+                        },
+                        controller: controller.websiteController,
+                        hint: "Website Buku",
+                        label: "Website Buku"),
+                    const SizedBox(
+                      height: 64,
+                    )
+                  ],
+                )),
           ),
         ));
   }
@@ -75,9 +124,7 @@ class BookFormScreen extends GetView<BookFormController> {
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
-            onTap: () {
-              controller.addBook();
-            },
+            onTap: controller.onSubmit,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 16),
               margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -87,15 +134,15 @@ class BookFormScreen extends GetView<BookFormController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.add,
+                  Icon(
+                    controller.isEdit ? Icons.save : Icons.add,
                     color: Colors.white,
                   ),
                   const SizedBox(
                     width: 8,
                   ),
                   Text(
-                    "Tambah Buku",
+                    controller.isEdit ? "Simpan Perubahan" : "Tambah Buku",
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!

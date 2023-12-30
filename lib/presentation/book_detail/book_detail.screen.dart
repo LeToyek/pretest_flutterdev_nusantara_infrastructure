@@ -11,12 +11,18 @@ class BookDetailScreen extends GetView<BookDetailController> {
     return Obx(() => Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            foregroundColor: Colors.white,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            title: Text(
-              controller.book.value!.title ?? "",
-              style: textTheme.titleLarge!.apply(color: Colors.white),
-            )),
+          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          centerTitle: true,
+          title: Text(
+            controller.book.value!.title ?? "",
+            style: textTheme.titleLarge!.apply(color: Colors.white),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: controller.goToEditForm,
+            icon: const Icon(Icons.edit),
+            label: const Text("Edit Buku")),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

@@ -8,7 +8,7 @@ class CustomSnackBar {
       message,
       backgroundColor: Colors.green,
       colorText: Colors.white,
-      snackPosition: SnackPosition.TOP,
+      snackPosition: SnackPosition.BOTTOM,
       duration: const Duration(seconds: 3),
       margin: const EdgeInsets.all(16),
     );

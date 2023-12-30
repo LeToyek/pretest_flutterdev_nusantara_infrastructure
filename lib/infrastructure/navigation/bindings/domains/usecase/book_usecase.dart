@@ -59,19 +59,31 @@ class BookUseCase {
     }
   }
 
-  Future<Book> updateBook(Book newBook) async {
+  Future<Book> updateBook({
+    required int id,
+    required String isbn,
+    required String title,
+    required String subtitle,
+    required String author,
+    required String publisher,
+    required int pages,
+    required String description,
+    required String website,
+    required DateTime published,
+  }) async {
     try {
+      final stringPublished = published.toString();
       final book = BookModelDaos(
-        id: newBook.id,
-        isbn: newBook.isbn,
-        title: newBook.title,
-        subtitle: newBook.subtitle,
-        author: newBook.author,
-        published: newBook.published,
-        publisher: newBook.publisher,
-        pages: newBook.pages,
-        description: newBook.description,
-        website: newBook.website,
+        id: id,
+        isbn: isbn,
+        title: title,
+        subtitle: subtitle,
+        author: author,
+        publisher: publisher,
+        published: stringPublished,
+        pages: pages,
+        description: description,
+        website: website,
       );
       final res = await _bookRepository.updateBook(book);
       final bookResponse = Book.fromData(res);
