@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/entities/book.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/usecase/book_usecase.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/routes.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/basic_loader.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/controllers/auth.controller.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/basic_loader.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/snackbar/custom_snackbar.dart';
 
 class HomeController extends GetxController with StateMixin<List<Book>> {
@@ -18,15 +18,23 @@ class HomeController extends GetxController with StateMixin<List<Book>> {
 
   static HomeController get to => Get.find();
 
-  void getAllBooks() async {
-    change(null, status: RxStatus.loading());
+  Future<void> getAllBooks() async {
+    change([], status: RxStatus.loading());
     try {
       final books = await bookUseCase.getBooks();
-      print(books);
       change(books, status: RxStatus.success());
     } catch (e) {
-      change(null, status: RxStatus.error(e.toString()));
+      change([], status: RxStatus.error(e.toString()));
     }
+  }
+
+  void clearDeleteList() {
+    deleteListId.clear();
+  }
+
+  void goToBookAdd() {
+    Get.toNamed(Routes.BOOK_FORM);
+    clearDeleteList();
   }
 
   void addItemToDelete(int id) {
@@ -82,6 +90,10 @@ class HomeController extends GetxController with StateMixin<List<Book>> {
 
   void goToBookDetail(int id) {
     try {
+      if (deleteListId.isNotEmpty) {
+        addItemToDelete(id);
+        return;
+      }
       if (deleteListId.contains(id)) {
         deleteListId.remove(id);
         return;

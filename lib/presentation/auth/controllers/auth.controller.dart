@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/entities/user.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/bindings/domains/usecase/auth_usecase.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/infrastructure/navigation/routes.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/basic_loader.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/basic_loader.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/snackbar/custom_snackbar.dart';
 
 class AuthController extends GetxController {

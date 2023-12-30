@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AuthTextField extends StatefulWidget {
+class CustomTextField extends StatefulWidget {
   String? label;
   String? hint;
   TextInputType? keyboardType;
   TextEditingController controller;
   String? Function(String?)? validator;
   bool isPassword;
-  AuthTextField(
+  CustomTextField(
       {Key? key,
       this.keyboardType,
       this.label,
@@ -18,11 +18,11 @@ class AuthTextField extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<AuthTextField> createState() => _AuthTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
-class _AuthTextFieldState extends State<AuthTextField> {
-  bool obsecureText = true;
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool obsecureText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
       keyboardType: widget.keyboardType,
       validator: widget.validator,
       controller: widget.controller,
-      obscureText: widget.isPassword && obsecureText,
+      obscureText: obsecureText,
       decoration: InputDecoration(
-        isDense: true,
         labelText: widget.label,
         hintText: widget.hint,
         border: OutlineInputBorder(

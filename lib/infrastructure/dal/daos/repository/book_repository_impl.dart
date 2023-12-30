@@ -11,7 +11,7 @@ class BookRepositoryImpl extends BookRepository {
   Future<BookModelDaos> addBook(BookModelDaos book) async {
     try {
       final res =
-          await _nusantaraApiClient.post("/books", data: book.toAddJson());
+          await _nusantaraApiClient.post("/books/add", data: book.toAddJson());
       final bookResponse = BookModelDaos.fromJson(res.data);
       return bookResponse;
     } catch (e) {

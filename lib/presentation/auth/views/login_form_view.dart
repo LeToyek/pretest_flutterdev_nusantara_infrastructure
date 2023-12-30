@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/auth_button.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/auth_text_field.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/controllers/auth.controller.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/custom_button.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/text_field/custom_text_field.dart';
 
 class LoginFormView extends GetView<AuthController> {
   const LoginFormView({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class LoginFormView extends GetView<AuthController> {
         key: controller.loginKey,
         child: Column(
           children: [
-            AuthTextField(
+            CustomTextField(
                 validator: controller.emailValidator,
                 controller: controller.emailTextController,
                 hint: "Email",
@@ -21,7 +21,7 @@ class LoginFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthTextField(
+            CustomTextField(
                 controller: controller.passwordTextController,
                 validator: controller.passwordValidator,
                 hint: "Password",
@@ -30,7 +30,7 @@ class LoginFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthButton(onPressed: controller.login, label: "Login"),
+            CustomButton(onPressed: controller.login, label: "Login"),
             const SizedBox(
               height: 16,
             ),

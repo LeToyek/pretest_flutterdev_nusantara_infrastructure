@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/auth_button.dart';
-import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/components/auth_text_field.dart';
 import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/auth/controllers/auth.controller.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/custom_button.dart';
+import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/components/text_field/custom_text_field.dart';
 
 class RegisterFormView extends GetView<AuthController> {
   const RegisterFormView({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class RegisterFormView extends GetView<AuthController> {
         key: controller.registerKey,
         child: Column(
           children: [
-            AuthTextField(
+            CustomTextField(
                 validator: controller.nameValidator,
                 controller: controller.nameTextController,
                 hint: "Name",
@@ -20,7 +20,7 @@ class RegisterFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthTextField(
+            CustomTextField(
                 validator: controller.emailValidator,
                 controller: controller.emailTextController,
                 hint: "Email",
@@ -29,7 +29,7 @@ class RegisterFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthTextField(
+            CustomTextField(
                 controller: controller.passwordTextController,
                 validator: controller.passwordValidator,
                 hint: "Password",
@@ -38,7 +38,7 @@ class RegisterFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthTextField(
+            CustomTextField(
                 controller: controller.passwordConfirmationTextController,
                 validator: controller.passwordConfirmationValidator,
                 hint: "Confirm Password",
@@ -47,7 +47,7 @@ class RegisterFormView extends GetView<AuthController> {
             const SizedBox(
               height: 24,
             ),
-            AuthButton(onPressed: controller.register, label: "Register"),
+            CustomButton(onPressed: controller.register, label: "Register"),
             const SizedBox(
               height: 16,
             ),

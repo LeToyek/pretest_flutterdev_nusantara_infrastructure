@@ -27,18 +27,29 @@ class BookUseCase {
     }
   }
 
-  Future<Book> addBook(Book book) async {
+  Future<Book> addBook({
+    required String isbn,
+    required String title,
+    required String subtitle,
+    required String author,
+    required String publisher,
+    required int pages,
+    required String description,
+    required String website,
+    required DateTime published,
+  }) async {
     try {
+      final stringPublished = published.toString();
       final bookDaos = BookModelDaos(
-        isbn: book.isbn,
-        title: book.title,
-        subtitle: book.subtitle,
-        author: book.author,
-        published: book.published,
-        publisher: book.publisher,
-        pages: book.pages,
-        description: book.description,
-        website: book.website,
+        isbn: isbn,
+        title: title,
+        subtitle: subtitle,
+        author: author,
+        publisher: publisher,
+        published: stringPublished,
+        pages: pages,
+        description: description,
+        website: website,
       );
       final res = await _bookRepository.addBook(bookDaos);
       final bookResponse = Book.fromData(res);

@@ -13,6 +13,7 @@ class CustomAppBar extends GetView<HomeController>
       () => AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         // height: 200,
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         decoration: BoxDecoration(
           color: controller.deleteListId.isEmpty
               ? colorScheme.primary
@@ -25,30 +26,51 @@ class CustomAppBar extends GetView<HomeController>
             )
           ],
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  "Book List",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .apply(color: Colors.white),
-                ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Book List",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .apply(color: Colors.white),
+                  ),
+                  const Spacer(),
+                  Visibility(
+                    visible: controller.deleteListId.isNotEmpty,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: controller.deleteSelectedBook,
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        GestureDetector(
+                          onTap: controller.clearDeleteList,
+                          child: const Icon(
+                            Icons.clear,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            ),
-            if (controller.deleteListId.isNotEmpty)
-              IconButton(
-                  onPressed: () {
-                    controller.deleteSelectedBook();
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ))
-          ],
+            ],
+          ),
         ),
       ),
     );

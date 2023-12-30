@@ -13,7 +13,7 @@ class BookCardView extends GetView<HomeController> {
       onTap: () => controller.goToBookDetail(book.id!),
       onLongPress: () => controller.addItemToDelete(book.id!),
       child: Obx(() => AnimatedContainer(
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.symmetric(vertical: 8),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
                 color: controller.isSelectedCard(book.id!)

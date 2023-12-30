@@ -5,6 +5,7 @@ class Routes {
   }
 
   static const AUTH = '/auth';
-  static const HOME = '/home';
   static const BOOK_DETAIL = '/book-detail';
+  static const HOME = '/home';
+  static const BOOK_FORM = '/book-form';
 }
