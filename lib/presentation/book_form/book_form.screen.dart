@@ -49,7 +49,7 @@ class BookFormScreen extends GetView<BookFormController> {
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return "ISBN tidak boleh kosong";
-                        } else if (value.contains("-")) {
+                        } else if (RegExp(r"[.-]").hasMatch(value)) {
                           return "ISBN tidak boleh mengandung -";
                         }
                         return null;
@@ -63,8 +63,8 @@ class BookFormScreen extends GetView<BookFormController> {
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return "Jumlah Halaman tidak boleh kosong";
-                        } else if (value.contains("-")) {
-                          return "Jumlah Halaman tidak boleh mengandung -";
+                        } else if (RegExp(r"[.-]").hasMatch(value)) {
+                          return "Jumlah Halaman tidak boleh mengandung - atau .";
                         } else if (int.parse(value) < 0) {
                           return "Jumlah Halaman tidak boleh kurang dari 0";
                         }

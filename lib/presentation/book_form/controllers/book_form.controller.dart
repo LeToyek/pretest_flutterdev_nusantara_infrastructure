@@ -111,8 +111,7 @@ class BookFormController extends GetxController {
 
           Get.back(closeOverlays: true, result: newBook);
           CustomSnackBar.showSuccess(
-              title: "Berhasil Mengubah Buku",
-              message: "Buku ${res.title} berhasil diubah");
+              title: "Berhasil Mengubah Buku", message: "Buku berhasil diubah");
         } catch (e) {
           Get.back(closeOverlays: true);
           CustomSnackBar.showError(title: "Error", message: e.toString());
@@ -145,7 +144,7 @@ class BookFormController extends GetxController {
           Get.back(closeOverlays: true);
           CustomSnackBar.showSuccess(
               title: "Berhasil Menambahkan Buku",
-              message: "Buku ${res.title} berhasil ditambahkan");
+              message: "Buku berhasil ditambahkan");
         } catch (e) {
           Get.back();
           CustomSnackBar.showError(title: "Error", message: e.toString());
