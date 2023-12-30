@@ -37,15 +37,19 @@ class AuthController extends GetxController {
 
   void checkLogin() async {
     final res = authUseCase.checkLogin();
-    if (res) {
-      final data = await authUseCase.getUser();
+    try {
+      if (res) {
+        final data = await authUseCase.getUser();
 
-      user.value = data;
-      Get.offNamed(Routes.HOME);
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Get.offNamed(Routes.AUTH);
-      });
+        user.value = data;
+        Get.offNamed(Routes.HOME);
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Get.offNamed(Routes.AUTH);
+        });
+      }
+    } catch (e) {
+      Get.offNamed(Routes.AUTH);
     }
   }
 
