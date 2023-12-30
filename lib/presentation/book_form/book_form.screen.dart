@@ -28,7 +28,7 @@ class BookFormScreen extends GetView<BookFormController> {
                         controller: controller.titleController,
                         hint: "Judul Buku",
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Judul Buku tidak boleh kosong";
                           }
                           return null;
@@ -37,7 +37,7 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomAriseTextField(
                         controller: controller.subTitleController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Sub Judul Buku tidak boleh kosong";
                           }
                           return null;
@@ -47,8 +47,10 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomAriseTextField(
                       label: "ISBN",
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return "ISBN tidak boleh kosong";
+                        } else if (value.contains("-")) {
+                          return "ISBN tidak boleh mengandung -";
                         }
                         return null;
                       },
@@ -59,8 +61,12 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomAriseTextField(
                       label: "Jumlah Halaman",
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return "Jumlah Halaman tidak boleh kosong";
+                        } else if (value.contains("-")) {
+                          return "Jumlah Halaman tidak boleh mengandung -";
+                        } else if (int.parse(value) < 0) {
+                          return "Jumlah Halaman tidak boleh kurang dari 0";
                         }
                         return null;
                       },
@@ -71,7 +77,7 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomAriseTextField(
                       controller: controller.authorController,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return "Penulis Buku tidak boleh kosong";
                         }
                         return null;
@@ -82,7 +88,7 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomAriseTextField(
                         controller: controller.publisherController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Penerbit Buku tidak boleh kosong";
                           }
                           return null;
@@ -92,7 +98,7 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomLargeTextField(
                         controller: controller.descriptionController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Deskripsi Buku tidak boleh kosong";
                           }
                           return null;
@@ -102,7 +108,7 @@ class BookFormScreen extends GetView<BookFormController> {
                     CustomAriseTextField(
                         keyboardType: TextInputType.url,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.trim().isEmpty) {
                             return "Website Buku tidak boleh kosong";
                           }
                           return null;
