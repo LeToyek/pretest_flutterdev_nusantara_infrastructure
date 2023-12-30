@@ -6,6 +6,7 @@ class Routes {
 
   static const AUTH = '/auth';
   static const BOOK_DETAIL = '/book-detail';
-  static const HOME = '/home';
   static const BOOK_FORM = '/book-form';
+  static const HOME = '/home';
+  static const SPLASH_SCREEN = '/splash-screen';
 }

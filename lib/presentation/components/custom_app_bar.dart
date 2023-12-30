@@ -36,7 +36,9 @@ class CustomAppBar extends GetView<HomeController>
               Row(
                 children: [
                   Text(
-                    "Book List",
+                    controller.deleteListId.isEmpty
+                        ? "Book List"
+                        : "${controller.deleteListId.length} Book Selected",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!

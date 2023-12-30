@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'controllers/book_detail.controller.dart';
 
@@ -31,54 +33,56 @@ class BookDetailScreen extends GetView<BookDetailController> {
               Table(
                 columnWidths: const {
                   0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(2),
+                  1: FlexColumnWidth(0.1),
+                  2: FlexColumnWidth(2),
                 },
                 children: [
+                  _buildTableRow(context,
+                      title: "ISBN", value: controller.book.value!.isbn ?? ""),
+                  _buildTableRow(context,
+                      title: "Sub Judul",
+                      value: controller.book.value!.subtitle ?? ""),
+                  _buildTableRow(context,
+                      title: "Penulis",
+                      value: controller.book.value!.author ?? ""),
+                  _buildTableRow(context,
+                      title: "Penerbit",
+                      value: controller.book.value!.publisher ?? ""),
+                  _buildTableRow(context,
+                      title: "Tanggal Terbit",
+                      value:
+                          controller.book.value!.published!.substring(0, 10)),
+                  _buildTableRow(context,
+                      title: "Jumlah Halaman",
+                      value: controller.book.value!.pages.toString()),
                   TableRow(children: [
                     Text(
-                      "Title",
+                      "Website",
                       style: textTheme.bodyMedium,
                     ),
-                    Text(
-                      ": ${controller.book.value!.title ?? ""}",
-                      style: textTheme.bodyMedium,
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Text(
-                      "Author",
-                      style: textTheme.bodyMedium,
-                    ),
-                    Text(
-                      ": ${controller.book.value!.author ?? ""}",
-                      style: textTheme.bodyMedium,
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Text(
-                      "Publisher",
-                      style: textTheme.bodyMedium,
-                    ),
-                    Text(
-                      ": ${controller.book.value!.publisher ?? ""}",
-                      style: textTheme.bodyMedium,
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Text(
-                      "Published Date",
-                      style: textTheme.bodyMedium,
-                    ),
-                    Text(
-                      ": ${controller.book.value!.published!.substring(0, 10)}",
-                      style: textTheme.bodyMedium,
-                    ),
+                    const Text(":"),
+                    RichText(
+                        text: TextSpan(
+                            text: controller.book.value!.website ?? "",
+                            style:
+                                textTheme.bodyMedium!.apply(color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                final url = Uri.tryParse(
+                                    controller.book.value!.website!);
+                                if (url != null && await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
+                              }))
                   ]),
                 ],
               ),
               const SizedBox(
                 height: 8,
               ),
+              const Divider(),
               Text(
                 controller.book.value!.description ?? "",
                 style: textTheme.bodyLarge,
@@ -86,5 +90,21 @@ class BookDetailScreen extends GetView<BookDetailController> {
             ],
           ),
         )));
+  }
+
+  TableRow _buildTableRow(context,
+      {required String title, required String value}) {
+    final textTheme = Theme.of(context).textTheme;
+    return TableRow(children: [
+      Text(
+        title,
+        style: textTheme.bodyMedium,
+      ),
+      const Text(":"),
+      Text(
+        value,
+        style: textTheme.bodyMedium,
+      ),
+    ]);
   }
 }

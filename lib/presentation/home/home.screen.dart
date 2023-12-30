@@ -18,16 +18,21 @@ class HomeScreen extends GetView<HomeController> {
         label: const Text("Tambah Buku"),
         icon: const Icon(Icons.add),
       ),
-      body: RefreshIndicator(
-        onRefresh: controller.getAllBooks,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
+      body: controller.obx(
+        (state) => _refreshWrapper(
+          isScroll: state != null && state.isEmpty,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                controller.obx(
-                  (state) => Column(
+            child: state != null && state.isEmpty
+                ? const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                          "Anda belum memiliki buku, silahkan tambahkan buku anda dengan cara tekan tombol di pojok kanan bawah."),
+                    ],
+                  )
+                : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -51,26 +56,50 @@ class HomeScreen extends GetView<HomeController> {
                             return BookCardView(book: item);
                           },
                           itemCount: state!.length),
+                      const SizedBox(
+                        height: 64,
+                      )
                     ],
                   ),
-                  onError: (error) => Center(
-                    child: Text("Error $error"),
-                  ),
-                  onEmpty: const Center(
-                    child: Text("No Data"),
-                  ),
-                  onLoading: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-              ],
-            ),
+          ),
+        ),
+        onError: (error) => _refreshWrapper(
+          child: Center(
+            child: Text("Error $error"),
+          ),
+        ),
+        onEmpty: _refreshWrapper(
+          child: const Center(
+            child: Text("No Data"),
+          ),
+        ),
+        onLoading: _refreshWrapper(
+          child: const Center(
+            child: CircularProgressIndicator(),
           ),
         ),
       ),
     );
+  }
+
+  Widget _refreshWrapper({required Widget child, bool isScroll = true}) {
+    return RefreshIndicator(
+        onRefresh: controller.getAllBooks,
+        child: isScroll
+            ? LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                            minWidth: constraints.maxWidth),
+                        child: IntrinsicHeight(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [const Spacer(), child, const Spacer()],
+                        )),
+                      ),
+                    ))
+            : child);
   }
 }
