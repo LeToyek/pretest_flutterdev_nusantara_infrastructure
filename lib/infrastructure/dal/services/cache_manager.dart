@@ -41,6 +41,10 @@ class CacheManager extends GetxService {
       await _storage!.write(_Key.user.toString(), jsonEncode(user.toJson()));
     }
   }
+
+  Future<void> clear() async {
+    await _storage!.erase();
+  }
 }
 
 enum _Key { token, user }

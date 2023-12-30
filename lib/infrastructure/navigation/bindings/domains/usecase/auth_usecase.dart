@@ -14,7 +14,13 @@ class AuthUseCase {
   bool checkLogin() {
     try {
       final token = store.getToken();
-      return token != null || token!.isNotEmpty;
+      if (token == null) {
+        return false;
+      }
+      if (token.isEmpty) {
+        return false;
+      }
+      return true;
     } catch (e) {
       rethrow;
     }
@@ -69,6 +75,7 @@ class AuthUseCase {
   Future<void> logout() async {
     try {
       await authRepository.signOut();
+      await store.clear();
     } catch (e) {
       rethrow;
     }

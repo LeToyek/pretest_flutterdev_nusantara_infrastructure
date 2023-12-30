@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../../config.dart';
@@ -44,6 +45,11 @@ class Nav {
       name: Routes.BOOK_FORM,
       page: () => const BookFormScreen(),
       binding: BookFormControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SPLASH,
+      page: () => const SplashScreen(),
+      binding: SplashControllerBinding(),
     ),
   ];
 }

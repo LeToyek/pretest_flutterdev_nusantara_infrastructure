@@ -8,6 +8,7 @@ import 'package:pretest_flutterdev_nusantara_infrastructure/presentation/app.dar
 import 'infrastructure/navigation/routes.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await initServices();
   var initialRoute = await Routes.initialRoute;

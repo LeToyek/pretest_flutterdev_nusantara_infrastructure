@@ -26,12 +26,6 @@ class AuthController extends GetxController {
   final passwordConfirmationTextController = TextEditingController();
 
   @override
-  void onInit() {
-    super.onInit();
-    checkLogin();
-  }
-
-  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
@@ -39,6 +33,21 @@ class AuthController extends GetxController {
     emailTextController.dispose();
     passwordTextController.dispose();
     passwordConfirmationTextController.dispose();
+  }
+
+  void checkLogin() async {
+    final res = authUseCase.checkLogin();
+    if (res) {
+      final data = await authUseCase.getUser();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        user.value = data;
+        Get.offNamed(Routes.HOME);
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.offNamed(Routes.AUTH);
+      });
+    }
   }
 
   void switchScreen() {
@@ -102,15 +111,6 @@ class AuthController extends GetxController {
     } catch (e) {
       Get.back(closeOverlays: true);
       CustomSnackBar.showError(title: "Error", message: e.toString());
-    }
-  }
-
-  void checkLogin() async {
-    final res = authUseCase.checkLogin();
-    if (res) {
-      final data = await authUseCase.getUser();
-      user.value = data;
-      Get.offNamed(Routes.HOME);
     }
   }
 
