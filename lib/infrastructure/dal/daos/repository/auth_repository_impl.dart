@@ -51,7 +51,7 @@ class AuthRepositoryImpl extends AuthRepository {
       return userResponse;
     } on DioException catch (e) {
       if (e.response!.statusCode == 422) {
-        throw HttpException("Email sudah terdaftar", 422);
+        throw HttpException(e.response!.data['message'], 422);
       }
       rethrow;
     } catch (e) {

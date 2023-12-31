@@ -33,69 +33,72 @@ class BookDetailScreen extends GetView<BookDetailController> {
             onPressed: controller.goToEditForm,
             icon: const Icon(Icons.edit),
             label: const Text("Edit Buku")),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(0.1),
-                  2: FlexColumnWidth(2),
-                },
-                children: [
-                  _buildTableRow(context,
-                      title: "ISBN", value: controller.book.value!.isbn ?? ""),
-                  _buildTableRow(context,
-                      title: "Sub Judul",
-                      value: controller.book.value!.subtitle ?? ""),
-                  _buildTableRow(context,
-                      title: "Penulis",
-                      value: controller.book.value!.author ?? ""),
-                  _buildTableRow(context,
-                      title: "Penerbit",
-                      value: controller.book.value!.publisher ?? ""),
-                  _buildTableRow(context,
-                      title: "Tanggal Terbit",
-                      value:
-                          controller.book.value!.published!.substring(0, 10)),
-                  _buildTableRow(context,
-                      title: "Jumlah Halaman",
-                      value: controller.book.value!.pages.toString()),
-                  TableRow(children: [
-                    Text(
-                      "Website",
-                      style: textTheme.bodyMedium,
-                    ),
-                    const Text(":"),
-                    RichText(
-                        text: TextSpan(
-                            text: controller.book.value!.website ?? "",
-                            style:
-                                textTheme.bodyMedium!.apply(color: Colors.blue),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                final url = Uri.tryParse(
-                                    controller.book.value!.website!);
-                                if (url != null && await canLaunchUrl(url)) {
-                                  await launchUrl(url);
-                                } else {
-                                  throw 'Could not launch $url';
-                                }
-                              }))
-                  ]),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Divider(),
-              Text(
-                controller.book.value!.description ?? "",
-                style: textTheme.bodyLarge,
-              ),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Table(
+                  columnWidths: const {
+                    0: FlexColumnWidth(1),
+                    1: FlexColumnWidth(0.1),
+                    2: FlexColumnWidth(2),
+                  },
+                  children: [
+                    _buildTableRow(context,
+                        title: "ISBN",
+                        value: controller.book.value!.isbn ?? ""),
+                    _buildTableRow(context,
+                        title: "Sub Judul",
+                        value: controller.book.value!.subtitle ?? ""),
+                    _buildTableRow(context,
+                        title: "Penulis",
+                        value: controller.book.value!.author ?? ""),
+                    _buildTableRow(context,
+                        title: "Penerbit",
+                        value: controller.book.value!.publisher ?? ""),
+                    _buildTableRow(context,
+                        title: "Tanggal Terbit",
+                        value:
+                            controller.book.value!.published!.substring(0, 10)),
+                    _buildTableRow(context,
+                        title: "Jumlah Halaman",
+                        value: controller.book.value!.pages.toString()),
+                    TableRow(children: [
+                      Text(
+                        "Website",
+                        style: textTheme.bodyMedium,
+                      ),
+                      const Text(":"),
+                      RichText(
+                          text: TextSpan(
+                              text: controller.book.value!.website ?? "",
+                              style: textTheme.bodyMedium!
+                                  .apply(color: Colors.blue),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  final url = Uri.tryParse(
+                                      controller.book.value!.website!);
+                                  if (url != null && await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                }))
+                    ]),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                const Divider(),
+                Text(
+                  controller.book.value!.description ?? "",
+                  style: textTheme.bodyLarge,
+                ),
+              ],
+            ),
           ),
         )));
   }
